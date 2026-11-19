@@ -1,0 +1,574 @@
+<title>XKing Studio</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,700;6..96,800&family=Jost:wght@400;500;600&family=Nunito:wght@800;900&family=DM+Sans:wght@700&family=Rubik:wght@700&family=Roboto:wght@700;900&family=Montserrat:wght@800&family=Inter:wght@800&display=swap">
+<style>
+/* Layout: one centered column. A wide dense-city banner on top with the XKing Studio plate over its middle, then four stacked link buttons. */
+:root {
+  --bg: #EDF0F4;
+  --surface: #FFFFFF;
+  --fg: #10151C;
+  --muted: #5A6573;
+  --line: #D5DBE3;
+  --gold: #B98A12;
+  --t-kofi: #E8403D;
+  --t-patreon: #E02D39;
+  --t-discord: #4752C4;
+  --t-youtube: #D80000;
+  --t-curse: #D24E1E;
+  --t-modrinth: #0C9A4B;
+
+  --f-display: "Bodoni Moda", "Didot", "Bodoni 72", Georgia, serif;
+  --f-body: "Jost", "Futura", "Century Gothic", "Segoe UI", sans-serif;
+  --f-kofi: "Nunito", "Arial Rounded MT Bold", "Segoe UI", sans-serif;
+  --f-patreon: "DM Sans", "Helvetica Neue", Arial, sans-serif;
+  --f-discord: "Rubik", "Segoe UI", Arial, sans-serif;
+  --f-youtube: "Roboto", "Helvetica Neue", Arial, sans-serif;
+  --f-curse: "Montserrat", "Segoe UI", Arial, sans-serif;
+  --f-modrinth: "Inter", "Segoe UI", Arial, sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0A0F17;
+    --surface: #131A25;
+    --fg: #F2F0EA;
+    --muted: #9BA6B5;
+    --line: #243042;
+    --gold: #E4B63A;
+    --t-kofi: #FF6F6C;
+    --t-patreon: #FF5A64;
+    --t-discord: #8E99FF;
+    --t-youtube: #FF4B4B;
+    --t-curse: #FF7F4F;
+    --t-modrinth: #1BD96A;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0A0F17;
+  --surface: #131A25;
+  --fg: #F2F0EA;
+  --muted: #9BA6B5;
+  --line: #243042;
+  --gold: #E4B63A;
+  --t-kofi: #FF6F6C;
+  --t-patreon: #FF5A64;
+  --t-discord: #8E99FF;
+  --t-youtube: #FF4B4B;
+    --t-curse: #FF7F4F;
+    --t-modrinth: #1BD96A;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--f-body);
+  font-size: 16px;
+  line-height: 1.4;
+  padding-block: 16px 40px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  transition: background .3s, color .3s;
+}
+.wrap { width: 100%; max-width: 1120px; margin: 0 auto; display: flex; flex-direction: column; gap: 32px; }
+
+/* Banner */
+.banner {
+  position: relative;
+  overflow: hidden;
+  border-radius: 24px 24px 0 0;
+  aspect-ratio: 16 / 7;
+  min-height: 300px;
+  max-height: 470px;
+  width: 100%;
+  background: #1B283A;
+  margin-bottom: -56px;
+}
+/* Bottom edge: soft blur first, then a fade into the page background */
+.banner::before {
+  content: "";
+  position: absolute;
+  inset: auto 0 0 0;
+  height: 55%;
+  z-index: 1;
+  pointer-events: none;
+  -webkit-backdrop-filter: blur(7px);
+  backdrop-filter: blur(7px);
+  -webkit-mask-image: linear-gradient(to bottom, transparent, #000 85%);
+  mask-image: linear-gradient(to bottom, transparent, #000 85%);
+}
+.banner::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0 0;
+  height: 52%;
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(to bottom,
+    color-mix(in srgb, var(--bg) 0%, transparent) 0%,
+    color-mix(in srgb, var(--bg) 50%, transparent) 55%,
+    var(--bg) 100%);
+}
+#city { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center bottom; display: block; }
+
+.plate {
+  position: absolute;
+  z-index: 2;
+  left: 50%; top: 48%;
+  transform: translate(-50%, -50%);
+  width: max-content;
+  max-width: calc(100% - 28px);
+  text-align: center;
+  padding: clamp(14px, 3vw, 30px) clamp(18px, 5vw, 56px);
+  background: rgba(255, 255, 255, .93);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, .8);
+  border-radius: 22px;
+  box-shadow: 0 24px 70px rgba(0, 0, 0, .35);
+}
+.eyebrow {
+  margin: 0 0 4px;
+  font: 500 .68rem/1.4 var(--f-body);
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  text-wrap: balance;
+  color: #2A2F37;
+}
+.plate h1 {
+  margin: 0;
+  font-family: var(--f-display);
+  font-weight: 800;
+  font-size: clamp(2.1rem, 8vw, 4.8rem);
+  line-height: 1.05;
+  letter-spacing: -.01em;
+  white-space: nowrap;
+  text-wrap: balance;
+}
+.plate .x {
+  color: #B98A12;
+  background: linear-gradient(180deg, #E9B92E 0%, #C28F0E 55%, #8F6400 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 1px 0 rgba(0, 0, 0, .35));
+}
+.plate .s { color: #0A0A0A; }
+
+/* Theme switch */
+.theme {
+  position: absolute;
+  z-index: 3;
+  top: 12px; right: 12px;
+  display: flex;
+  gap: 2px;
+  padding: 3px;
+  background: rgba(255, 255, 255, .88);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  border-radius: 999px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, .25);
+}
+.theme button {
+  font: 500 .8rem/1 var(--f-body);
+  letter-spacing: .02em;
+  color: #20262F;
+  background: transparent;
+  border: 0;
+  padding: 8px 13px;
+  border-radius: 999px;
+  cursor: pointer;
+}
+.theme button[aria-pressed="true"] { background: #10151C; color: #FFFFFF; }
+.theme button:focus-visible, .link:focus-visible { outline: 3px solid var(--gold); outline-offset: 2px; }
+
+/* Links */
+.links { position: relative; z-index: 2; width: 100%; max-width: 620px; margin: 0 auto; display: flex; flex-direction: column; gap: 14px; }
+.link {
+  --brand: #888;
+  --bt: var(--fg);
+  --bf: var(--f-body);
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 16px;
+  padding: 14px 20px 14px 14px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  color: var(--fg);
+  text-decoration: none;
+  transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+}
+.link:hover {
+  transform: translateY(-3px);
+  border-color: var(--brand);
+  box-shadow: 0 16px 36px -14px color-mix(in srgb, var(--brand) 60%, transparent);
+}
+.link:hover .go { transform: translateX(4px); color: var(--bt); }
+.chip { width: 58px; height: 58px; border-radius: 16px; background: var(--brand); display: grid; place-items: center; flex: none; }
+.chip svg { width: 32px; height: 32px; display: block; }
+.copy { min-width: 0; display: flex; flex-direction: column; gap: 3px; }
+.t1 { font: 500 1.06rem/1.25 var(--f-body); letter-spacing: .005em; overflow-wrap: anywhere; }
+.t1 .b { font-family: var(--bf); font-weight: 800; font-size: 1.12em; color: var(--bt); }
+.t2 { font: 400 .88rem/1.3 var(--f-body); color: var(--muted); overflow-wrap: anywhere; }
+.go { width: 20px; height: 20px; color: var(--muted); transition: transform .2s ease, color .2s ease; }
+
+/* Core button: the biggest button, rotating RGB border, metal shine on hover and press */
+.link.core {
+  --brand: #E4B63A; --bt: var(--gold); --bf: var(--f-display);
+  position: relative; isolation: isolate; overflow: hidden;
+  margin-inline: -14px; padding: 24px 28px 24px 22px; gap: 20px;
+  border: 0; border-radius: 28px; background: transparent;
+  box-shadow: 0 10px 30px -14px rgba(0,0,0,.45);
+}
+.link.core::before {
+  content: ""; position: absolute; z-index: -3; left: 50%; top: 50%; width: 260%; aspect-ratio: 1; border-radius: 0;
+  background: conic-gradient(#ff2d55, #ff9500, #ffe600, #34e36b, #00d0ff, #4d5bff, #c13dff, #ff2d55);
+  transform: translate(-50%, -50%) rotate(0deg); animation: core-spin 4s linear infinite;
+}
+.link.core::after {
+  content: ""; position: absolute; z-index: -2; inset: 4px; border-radius: 24px;
+  background:
+    linear-gradient(115deg, rgba(255,255,255,.0) 0%, rgba(255,255,255,.10) 38%, rgba(255,255,255,0) 62%),
+    linear-gradient(180deg, color-mix(in srgb, var(--surface) 92%, #fff) 0%, var(--surface) 55%, color-mix(in srgb, var(--surface) 88%, #000) 100%);
+}
+.link.core .shine { position: absolute; z-index: -1; inset: 4px; border-radius: 24px; overflow: hidden; pointer-events: none; }
+.link.core .shine::before {
+  content: ""; position: absolute; top: -20%; bottom: -20%; left: -45%; width: 38%;
+  background: linear-gradient(100deg, rgba(255,255,255,0) 0%, rgba(255,255,255,.18) 30%, rgba(255,255,255,.85) 50%, rgba(255,255,255,.22) 70%, rgba(255,255,255,0) 100%);
+  transform: skewX(-18deg) translateX(0); opacity: 0;
+}
+.link.core:hover .shine::before, .link.core:focus-visible .shine::before { opacity: 1; animation: core-shine .9s ease-out 1; }
+.link.core:active .shine::before { opacity: 1; animation: core-shine .45s ease-out 1; }
+.link.core:hover::after { background:
+    linear-gradient(115deg, rgba(255,255,255,0) 0%, rgba(255,255,255,.22) 35%, rgba(255,255,255,.04) 55%, rgba(255,255,255,.18) 75%, rgba(255,255,255,0) 100%),
+    linear-gradient(180deg, color-mix(in srgb, var(--surface) 82%, #fff) 0%, var(--surface) 50%, color-mix(in srgb, var(--surface) 80%, #000) 100%); }
+.link.core:hover { transform: translateY(-4px) scale(1.012); border-color: transparent; box-shadow: 0 22px 46px -16px rgba(120,120,255,.55); }
+.link.core:active { transform: translateY(0) scale(.985); filter: brightness(1.08); transition-duration: .08s; }
+.link.core .chip { width: 76px; height: 76px; border-radius: 22px; background: linear-gradient(145deg, #F7DB7A, #D9A62A 55%, #9A6F10); box-shadow: inset 0 1px 0 rgba(255,255,255,.6), 0 6px 16px -6px rgba(185,138,18,.8); }
+.link.core .chip svg { width: 44px; height: 44px; }
+.link.core .t1 { font-size: 1.2rem; }
+.link.core .t1 .b { font-size: 1.45em; letter-spacing: -.01em; }
+.link.core .t2 { font-size: .95rem; }
+@keyframes core-spin { to { transform: translate(-50%, -50%) rotate(360deg); } }
+@keyframes core-shine { from { left: -45%; } to { left: 120%; } }
+@media (max-width: 520px) { .link.core { margin-inline: -6px; padding: 20px 20px 20px 16px; gap: 14px; } .link.core .chip { width: 64px; height: 64px; } .link.core .chip svg { width: 38px; height: 38px; } }
+@media (prefers-reduced-motion: reduce) { .link.core::before { animation: none; } .link.core:hover .shine::before, .link.core:active .shine::before { animation: none; left: 40%; } .link.core:hover, .link.core:active { transform: none; } }
+
+.kofi { --brand: #FF5E5B; --bt: var(--t-kofi); --bf: var(--f-kofi); }
+.patreon { --brand: #FF424D; --bt: var(--t-patreon); --bf: var(--f-patreon); }
+.patreon .t1 .b { font-weight: 700; }
+.discord { --brand: #5865F2; --bt: var(--t-discord); --bf: var(--f-discord); }
+.discord .t1 .b { font-weight: 700; }
+.youtube { --brand: #FF0000; --bt: var(--t-youtube); --bf: var(--f-youtube); }
+.youtube .t1 .b { font-weight: 900; }
+.curseforge { --brand: #F16436; --bt: var(--t-curse); --bf: var(--f-curse); }
+.curseforge .t1 .b { font-weight: 800; }
+.modrinth { --brand: #1BD96A; --bt: var(--t-modrinth); --bf: var(--f-modrinth); }
+.modrinth .t1 .b { font-weight: 800; }
+
+footer { text-align: center; color: var(--muted); font: 400 .8rem/1.5 var(--f-body); letter-spacing: .08em; text-transform: uppercase; }
+
+@media (max-width: 460px) {
+  .theme button { padding: 7px 10px; font-size: .74rem; }
+  .chip { width: 50px; height: 50px; border-radius: 14px; }
+  .chip svg { width: 28px; height: 28px; }
+  .link { gap: 12px; padding: 12px 14px 12px 12px; }
+  .t1 { font-size: 1rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .link, .go, body { transition: none; }
+  .link:hover { transform: none; }
+}
+</style>
+
+<div class="wrap">
+  <header class="banner">
+    <canvas id="city" role="img" aria-label="Wide view of a dense modern city skyline"></canvas>
+    <div class="theme" role="group" aria-label="Theme">
+      <button type="button" data-mode="device" aria-pressed="true">Device</button>
+      <button type="button" data-mode="light" aria-pressed="false">Light</button>
+      <button type="button" data-mode="dark" aria-pressed="false">Dark</button>
+    </div>
+    <div class="plate">
+      <p class="eyebrow">Super Realism Modern Large City and Modern House</p>
+      <h1><span class="x">XKing</span> <span class="s">Studio</span></h1>
+    </div>
+  </header>
+
+  <main class="links">
+    <a class="link core" href="https://normallykingrichie.github.io/best-xking-all-platforms-core-web/" target="_blank" rel="noopener">
+      <span class="shine" aria-hidden="true"></span>
+      <span class="chip">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M3 19.5h18M5 19.5V9.5l3-2v12M10 19.5V5.5h4v14M16 19.5v-9l3 1.8v7.2" fill="none" stroke="#fff" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M12 2.6l.8 1.7 1.8.2-1.3 1.2.4 1.8-1.7-.9-1.7.9.4-1.8-1.3-1.2 1.8-.2z" fill="#fff"/>
+        </svg>
+      </span>
+      <span class="copy">
+        <span class="t1">Join the Official Public... <span class="b">XKing Core!</span></span>
+        <span class="t2">Announcements, games, events and Coins, all in one account!</span>
+      </span>
+      <svg class="go" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 4l6 6-6 6"/></svg>
+    </a>
+
+    <a class="link kofi" href="https://ko-fi.com/NormallyKingRichie" target="_blank" rel="noopener">
+      <span class="chip">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M3 7.5h13.2a1 1 0 0 1 1 1V14a5 5 0 0 1-5 5H8a5 5 0 0 1-5-5z" fill="#fff"/>
+          <path d="M17.2 9.2h1.4a2.5 2.5 0 0 1 0 5h-1.4" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round"/>
+          <path d="M10.1 15.8 7.4 13.2a1.9 1.9 0 0 1 2.7-2.7l.1.1.1-.1a1.9 1.9 0 0 1 2.7 2.7z" fill="#FF5E5B"/>
+        </svg>
+      </span>
+      <span class="copy">
+        <span class="t1">Support Me on... <span class="b">Ko-Fi!</span></span>
+        <span class="t2">Buy Me a Coffee!</span>
+      </span>
+      <svg class="go" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 4l6 6-6 6"/></svg>
+    </a>
+
+    <a class="link patreon" href="https://www.patreon.com/cw/NormallyKingRichie" target="_blank" rel="noopener">
+      <span class="chip">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <circle cx="14.6" cy="9.4" r="6.6" fill="#fff"/>
+          <rect x="2" y="2.8" width="4.3" height="18.4" fill="#fff"/>
+        </svg>
+      </span>
+      <span class="copy">
+        <span class="t1">Support Me on... <span class="b">Patreon!</span></span>
+        <span class="t2">Support Me as a Patron!</span>
+      </span>
+      <svg class="go" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 4l6 6-6 6"/></svg>
+    </a>
+
+    <a class="link discord" href="https://discord.gg/Vmr7kSJsRK" target="_blank" rel="noopener">
+      <span class="chip">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path fill="#fff" d="M19.3 5.4A16.6 16.6 0 0 0 15.2 4.2l-.5 1a15.4 15.4 0 0 0-5.4 0l-.5-1A16.6 16.6 0 0 0 4.7 5.4C2.1 9.3 1.4 13.1 1.7 16.9a16.7 16.7 0 0 0 5 2.5l1.1-1.7a10.7 10.7 0 0 1-1.7-.8l.4-.3a11.9 11.9 0 0 0 10.2 0l.4.3a10.7 10.7 0 0 1-1.7.8l1.1 1.7a16.7 16.7 0 0 0 5-2.5c.4-4.4-.7-8.2-3.2-11.5z"/>
+          <ellipse cx="8.9" cy="12.4" rx="1.7" ry="1.9" fill="#5865F2"/>
+          <ellipse cx="15.1" cy="12.4" rx="1.7" ry="1.9" fill="#5865F2"/>
+        </svg>
+      </span>
+      <span class="copy">
+        <span class="t1">Have questions? Join on <span class="b">Discord!</span></span>
+        <span class="t2">Server Invite!!</span>
+      </span>
+      <svg class="go" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 4l6 6-6 6"/></svg>
+    </a>
+
+    <a class="link youtube" href="https://www.youtube.com/channel/UCm0eWzH9TAgvE-WWu_om9Gg" target="_blank" rel="noopener">
+      <span class="chip">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <rect x="1.8" y="4.8" width="20.4" height="14.4" rx="4.6" fill="#fff"/>
+          <path d="M9.9 8.9 15.6 12l-5.7 3.1z" fill="#FF0000"/>
+        </svg>
+      </span>
+      <span class="copy">
+        <span class="t1">More documentation on... <span class="b">YouTube!</span></span>
+        <span class="t2">Subscribe Now! And don't miss any documentation!</span>
+      </span>
+      <svg class="go" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 4l6 6-6 6"/></svg>
+    </a>
+
+    <a class="link curseforge" href="https://www.curseforge.com/members/normallykingrichie/projects" target="_blank" rel="noopener">
+      <span class="chip">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path fill="#fff" d="M2.5 6.5h17q0 3-4 3.3v1.7q1.5 1 1.5 3h2V18H5v-3.5h2q0-2 1.5-3V9.8Q4 9.5 2.5 6.5z"/>
+        </svg>
+      </span>
+      <span class="copy">
+        <span class="t1">Download My Work on... <span class="b">CurseForge!</span></span>
+        <span class="t2">Get XKing Supreme City and Modern Houses Projects, and also the modpacks!!</span>
+      </span>
+      <svg class="go" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 4l6 6-6 6"/></svg>
+    </a>
+
+    <a class="link modrinth" href="https://modrinth.com/user/NormallyKingRichie" target="_blank" rel="noopener">
+      <span class="chip">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <circle cx="12" cy="12" r="9" fill="none" stroke="#0B1F14" stroke-width="2.4"/>
+          <path d="M12 7v8m-3.5-3.5L12 15l3.5-3.5" fill="none" stroke="#0B1F14" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </span>
+      <span class="copy">
+        <span class="t1">Download Deco and Games Modpacks on... <span class="b">Modrinth!</span></span>
+        <span class="t2">Get the Games and Deco Modpacks!</span>
+      </span>
+      <svg class="go" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 4l6 6-6 6"/></svg>
+    </a>
+  </main>
+
+  <footer>XKING SUPREME LARGE CITY &middot; Forge 1.20.1 &middot; NeoForge 1.21.1 &middot; Minecraft Java</footer>
+</div>
+
+<script>
+(function () {
+  var root = document.documentElement;
+  var KEY = 'xking-theme';
+
+  /* ---------- Banner: dense procedural skyline, no sea or terrain ---------- */
+  var cv = document.getElementById('city');
+  var ctx = cv.getContext('2d');
+  var W = 1600, H = 700;
+  cv.width = W; cv.height = H;
+
+  function rng(seed) {
+    return function () {
+      seed |= 0; seed = seed + 0x6D2B79F5 | 0;
+      var t = Math.imul(seed ^ seed >>> 15, 1 | seed);
+      t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t;
+      return ((t ^ t >>> 14) >>> 0) / 4294967296;
+    };
+  }
+  function hex(c) { return [1, 3, 5].map(function (i) { return parseInt(c.slice(i, i + 2), 16); }); }
+  function rgb(a) { return 'rgb(' + a.map(function (v) { return Math.max(0, Math.min(255, Math.round(v))); }).join(',') + ')'; }
+  function shade(c, n) { return rgb(hex(c).map(function (v) { return v + n; })); }
+  function mix(a, b, t) { var x = hex(a), y = hex(b); return rgb(x.map(function (v, i) { return v + (y[i] - v) * t; })); }
+
+  var PAL = {
+    day: {
+      skyTop: '#7FB4E8', skyBot: '#F6E6C6',
+      layers: ['#BCCBDB', '#A2B5C9', '#8399B2', '#627B97', '#445A73'],
+      glass: '#CFE6F7', haze: 'rgba(246,230,198,', hazeA: '.30'
+    },
+    night: {
+      skyTop: '#08111F', skyBot: '#C9712F',
+      layers: ['#2E4058', '#243448', '#1B283A', '#121B2A', '#0B111B'],
+      lit: ['#FFD98A', '#FFE9B8', '#BFE3FF', '#FFC46B'], litP: 0.4,
+      haze: 'rgba(201,113,47,', hazeA: '.10'
+    }
+  };
+  var LAY = [
+    { w0: 40, w1: 90,  h0: .60, h1: .84, ws: 5,  hs: 8,  hg: 4, vg: 5 },
+    { w0: 50, w1: 110, h0: .52, h1: .80, ws: 6,  hs: 9,  hg: 4, vg: 5 },
+    { w0: 60, w1: 120, h0: .42, h1: .72, ws: 7,  hs: 10, hg: 5, vg: 6 },
+    { w0: 70, w1: 140, h0: .30, h1: .60, ws: 8,  hs: 12, hg: 5, vg: 6 },
+    { w0: 90, w1: 180, h0: .16, h1: .40, ws: 10, hs: 14, hg: 6, vg: 7 }
+  ];
+
+  function isDark() {
+    var t = root.getAttribute('data-theme');
+    if (t === 'dark') return true;
+    if (t === 'light') return false;
+    return !!(window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
+  }
+
+  function windows(x, top, w, h, L, col, P, d, R) {
+    var mx = 5, my = 7;
+    var base = d ? shade(col, 9) : mix(col, P.glass, 0.38);
+    for (var yy = top + my; yy + L.hs < top + h - 3; yy += L.hs + L.vg) {
+      for (var xx = x + mx; xx + L.ws <= x + w - mx + 0.5; xx += L.ws + L.hg) {
+        var r = R();
+        if (d) {
+          ctx.fillStyle = r < P.litP ? P.lit[(R() * P.lit.length) | 0] : base;
+        } else {
+          ctx.fillStyle = r < 0.12 ? mix(col, '#FFFFFF', 0.55) : (r < 0.5 ? base : mix(col, P.glass, 0.22));
+        }
+        ctx.fillRect(xx, yy, L.ws, L.hs);
+      }
+    }
+  }
+
+  function block(x, top, w, h, col, L, P, d, R) {
+    var gr = ctx.createLinearGradient(x, 0, x + w, 0);
+    gr.addColorStop(0, shade(col, d ? 12 : 16));
+    gr.addColorStop(0.6, col);
+    gr.addColorStop(1, shade(col, -14));
+    ctx.fillStyle = gr;
+    ctx.fillRect(x, top, w, h);
+    ctx.fillStyle = shade(col, d ? 22 : 26);
+    ctx.fillRect(x, top, w, 2);
+    windows(x, top + 2, w, h - 2, L, col, P, d, R);
+  }
+
+  function building(x, w, h, col, L, i, P, d, R) {
+    var top = H - h;
+    block(x, top, w, h + 2, col, L, P, d, R);
+    if (w > 50 && R() < 0.6) {
+      var tw = w * (0.45 + R() * 0.3), th = H * (0.03 + R() * 0.07), tx = x + (w - tw) / 2;
+      block(tx, top - th, tw, th + 1, col, L, P, d, R);
+      if (i < 4 && R() < 0.4) {
+        var sh = 26 + R() * 60, cx = tx + tw / 2;
+        ctx.fillStyle = shade(col, -8);
+        ctx.fillRect(cx - 1.5, top - th - sh, 3, sh);
+        if (d) {
+          ctx.fillStyle = '#FF5A4F';
+          ctx.beginPath(); ctx.arc(cx, top - th - sh, 2.4, 0, 6.2832); ctx.fill();
+        }
+      }
+    }
+  }
+
+  function draw() {
+    var d = isDark();
+    var P = d ? PAL.night : PAL.day;
+    var R = rng(20261026);
+    ctx.clearRect(0, 0, W, H);
+
+    var g = ctx.createLinearGradient(0, 0, 0, H * 0.75);
+    g.addColorStop(0, P.skyTop); g.addColorStop(1, P.skyBot);
+    ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
+
+    if (!d) {
+      var sun = ctx.createRadialGradient(W * 0.78, H * 0.16, 10, W * 0.78, H * 0.16, 300);
+      sun.addColorStop(0, 'rgba(255,244,214,.95)');
+      sun.addColorStop(1, 'rgba(255,244,214,0)');
+      ctx.fillStyle = sun; ctx.fillRect(0, 0, W, H);
+    }
+
+    LAY.forEach(function (L, i) {
+      var col = P.layers[i];
+      var x = -30 - R() * 40;
+      while (x < W + 20) {
+        var w = L.w0 + R() * (L.w1 - L.w0);
+        var h = H * (L.h0 + R() * (L.h1 - L.h0));
+        building(x, w, h, col, L, i, P, d, R);
+        x += w * (0.78 + R() * 0.2);
+      }
+      if (i < LAY.length - 1) {
+        var hz = ctx.createLinearGradient(0, H * 0.25, 0, H);
+        hz.addColorStop(0, P.haze + '0)');
+        hz.addColorStop(1, P.haze + P.hazeA + ')');
+        ctx.fillStyle = hz; ctx.fillRect(0, 0, W, H);
+      }
+    });
+
+    var v = ctx.createRadialGradient(W / 2, H / 2, H * 0.45, W / 2, H / 2, W * 0.62);
+    v.addColorStop(0, 'rgba(0,0,0,0)');
+    v.addColorStop(1, 'rgba(0,0,0,.28)');
+    ctx.fillStyle = v; ctx.fillRect(0, 0, W, H);
+  }
+
+  /* ---------- Theme: Device / Light / Dark ---------- */
+  var btns = document.querySelectorAll('.theme button');
+  function applyMode(mode) {
+    if (mode === 'light' || mode === 'dark') root.setAttribute('data-theme', mode);
+    else root.removeAttribute('data-theme');
+    for (var i = 0; i < btns.length; i++) {
+      btns[i].setAttribute('aria-pressed', btns[i].getAttribute('data-mode') === mode ? 'true' : 'false');
+    }
+    draw();
+  }
+  var saved = 'device';
+  try { saved = localStorage.getItem(KEY) || 'device'; } catch (e) {}
+  if (saved !== 'light' && saved !== 'dark') saved = 'device';
+  for (var i = 0; i < btns.length; i++) {
+    btns[i].addEventListener('click', function () {
+      var m = this.getAttribute('data-mode');
+      try { localStorage.setItem(KEY, m); } catch (e) {}
+      applyMode(m);
+    });
+  }
+  if (window.matchMedia) {
+    var mq = window.matchMedia('(prefers-color-scheme: dark)');
+    var onChange = function () { draw(); };
+    if (mq.addEventListener) mq.addEventListener('change', onChange);
+    else if (mq.addListener) mq.addListener(onChange);
+  }
+  applyMode(saved);
+})();
+</script>
